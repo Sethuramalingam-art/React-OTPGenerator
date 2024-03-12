@@ -17,7 +17,9 @@ const PhoneOTPForm = () => {
   const handlePhoneNumber = (event) => {
     setPhNumber(event.target.value);
   };
-  const onOtpSubmit = () => {};
+  const onOtpSubmit = (otp) => {
+    console.log("Your OTP" + otp);
+  }
   return (
     <div>
       {!showOtpInput ? (
