@@ -7,9 +7,37 @@ const OtpInput = ({ length = 4, onOtpSubmit = () => {} }) => {
   useEffect(() => {
     inputRef.current[0].focus();
   }, []);
-  const handleChange = () => {};
-  const handleClick = () => {};
-  const handleKeyDown = () => {};
+  const handleChange = (index, e) => {
+    const value = e.target.value;
+    if (isNaN(value)) return;
+
+    const newOTP = [...otp];
+
+    newOTP[index] = value.substring(value.length - 1);
+    setOtp(newOTP);
+    const combinedOTP = newOTP.join("");
+    if (combinedOTP.length === length) {
+      onOtpSubmit(combinedOTP);
+    }
+    if (value && index < length - 1 && inputRef.current[index + 1]) {
+      inputRef.current[index + 1].focus();
+    }
+  };
+  const handleClick = (index) => {
+    inputRef.current[index].setSelectionRange(1, 1);
+  };
+  const handleKeyDown = (index, e) => {
+    console.log(inputRef.current);
+    if (
+      e.key === "Backspace" &&
+      !otp[index] &&
+      index > 0 &&
+      inputRef.current[index - 1]
+    ) {
+      // Move focus to the previous input field on backspace
+      inputRef.current[index - 1].focus();
+    }
+  };
   return (
     <div>
       {otp.map((value, index) => (
